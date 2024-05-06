@@ -18,7 +18,7 @@ Once downloaded, extract each dataset to the project directory under their respe
 ct-UAEs/
 │
 ├── ...
-├── ckpt/ # Corresponding ct-UAEs 
+├── embeddings/ # Corresponding ct-UAEs 
 ├── ct/ # Main source code directory
 ├── mp/ # Extracted mp dataset
 ├── mp_13/ # Extracted mp_13 dataset
@@ -101,7 +101,7 @@ def load_embeddings(checkpoint_path):
         raise FileNotFoundError("Checkpoint file not found.")
 
 # Example Usage
-checkpoint_path = 'ckpt\model_best_mt3_256.pth.tar'
+checkpoint_path = 'embeddings\model_best_mt3_256.pth.tar'
 embeddings = load_embeddings(checkpoint_path)
 print("Loaded Weights Shape:", embeddings['weights'].shape)
 print("Loaded Biases Shape:", embeddings['biases'].shape)
