@@ -61,6 +61,58 @@ For all four properties (formation energy (f), bandgap (b), total energy (e), an
 ```bash 
 python train\\main_mt_4.py --load mp_13 --file mp_13_4_fbem.csv
 ```
+## Universial Atomic Embeddings
+The ct-UAEs project focuses on leveraging advanced machine learning techniques, particularly deep learning, to develop embeddings that are valuable for materials science research. The core objective of the project is to create accurate and useful representations (embeddings) of chemical compounds using a dataset of materials properties, which can then be used in various predictive models in materials informatics.
+The embeddings themselves are stored in checkpoint files (.pth.tar), and extracting these embeddings involves loading specific layers from the trained models. Here's a guide on how to correctly load and utilize these model weights to obtain the embedding matrix:
+
+### Updated Code to Load Embeddings from Checkpoints
+The following markdown-formatted code snippet provides an improved and clear method to load the embedding weights from a given checkpoint (model_best_mt3_256.pth.tar). This ensures the extraction of a 100x128 tensor and 100 bias representing the embeddings:
+```python
+import torch
+import os
+
+def load_embeddings(checkpoint_path):
+    """
+    Loads the embedding weights and biases from a specified checkpoint file.
+
+    Args:
+    checkpoint_path (str): The path to the checkpoint file.
+
+    Returns:
+    dict: A dictionary containing the tensors for embedding weights and biases.
+    """
+    if os.path.isfile(checkpoint_path):
+        print(f"Loading checkpoint '{checkpoint_path}'")
+        checkpoint = torch.load(checkpoint_path, map_location=torch.device('cpu'))
+        
+        # Extract the embedding weights and biases
+        embeddings = {name.replace('atom_embed.', ''): param
+                      for name, param in checkpoint['state_dict'].items()
+                      if 'atom_embed' in name}
+        weights = embeddings.get('weight', None)
+        biases = embeddings.get('bias', None)
+        
+        if weights is None or biases is None:
+            raise ValueError("Weight or bias parameters not found in the checkpoint.")
+
+        return {'weights': weights, 'biases': biases}
+
+    else:
+        raise FileNotFoundError("Checkpoint file not found.")
+
+# Example Usage
+checkpoint_path = 'ckpt\model_best_mt3_256.pth.tar'
+embeddings = load_embeddings(checkpoint_path)
+print("Loaded Weights Shape:", embeddings['weights'].shape)
+print("Loaded Biases Shape:", embeddings['biases'].shape)
+```
+
+### Explanation
+1. **Function Definition**: The function `load_embeddings` is designed to take a path to a checkpoint file.
+2. **Checkpoint Loading**: It checks if the file exists and loads it. The `map_location` parameter is set to use CPU for compatibility.
+3. **Embedding Extraction**: Extracts the specific layer weights that contain the embeddings (identified by the keyword 'atom_embed' in the state dictionary keys).
+4. **Tensor Extraction**: The example usage at the bottom demonstrates how to call this function and print the shape of the loaded embeddings.
+
 ## Contributing
 
 Contributions are welcome! If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request.
