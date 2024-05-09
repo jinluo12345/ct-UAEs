@@ -32,7 +32,9 @@ This organization is crucial for ensuring that the datasets are correctly recogn
 - **Set up your development environment**: Ensure all necessary libraries and dependencies are installed. You can run 
 ```
 conda create -n ct-UAEs python==3.10
+
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
 pip install -r requirements.txt
 ```
 - **Begin model training**:execute the provided scripts to start training your models.
@@ -107,6 +109,8 @@ checkpoint_path = 'embeddings\model_best_mt3_256.pth.tar'
 embeddings = load_embeddings(checkpoint_path)
 print("Loaded Weights Shape:", embeddings['weights'].shape)
 print("Loaded Biases Shape:", embeddings['biases'].shape)
+
+# load model ......
 ```
 
 ### Explanation
