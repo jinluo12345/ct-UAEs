@@ -330,9 +330,11 @@ class CIFData(Dataset):
     def __init__(self, root_dir,file='id_prop.csv', max_num_nbr=12, radius=16, dmin=0, step=0.4 ,bins=64,
                  random_seed=42):
         self.root_dir = root_dir
+        print(file)
         self.max_num_nbr, self.radius = max_num_nbr, radius
         assert os.path.exists(root_dir), 'root_dir does not exist!'
         id_prop_file = os.path.join(self.root_dir, file)
+        print(id_prop_file)
         assert os.path.exists(id_prop_file), 'id_prop.csv does not exist!'
         with open(id_prop_file) as f:
             reader = csv.reader(f)

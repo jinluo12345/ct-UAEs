@@ -19,6 +19,7 @@ from ct.model import CrystalTransformer
 from sklearn.metrics import r2_score
 import random
 from torch.optim.lr_scheduler import CosineAnnealingLR
+print(os.getcwd())
 warnings.filterwarnings("ignore", category=UserWarning, module="pymatgen")
 
 parser = argparse.ArgumentParser(description='Crystal Graph Convolutional Neural Networks')
@@ -131,12 +132,9 @@ if args.wandb:
 def main():
     set_seed(42)
     global args, best_mae_error,best_r2_score
-
+    #print(args.load)
     # load data
-    if isinstance(args.load, str):
-        dataset = CIFData(args.load,file=args.file)
-    else:
-        dataset = CIFData(*args.load)
+    dataset = CIFData(*args.load,file=args.file)
     collate_fn = collate_pool
     collate_fn_train=collate_pool_train
     train_loader, val_loader, test_loader = get_train_val_test_loader(

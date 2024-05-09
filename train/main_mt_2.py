@@ -135,7 +135,6 @@ if args.wandb:
 def main():
     set_seed(42)
     global args, best_mae_error,best_r2_score
-
     dataset = CIFData(args.load,file=args.file)
     collate_fn = collate_pool
     collate_fn_train=collate_pool_train
