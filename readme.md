@@ -31,6 +31,8 @@ This organization is crucial for ensuring that the datasets are correctly recogn
 
 - **Set up your development environment**: Ensure all necessary libraries and dependencies are installed. You can run 
 ```
+conda create -n ct-UAEs python==3.10
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 pip install -r requirements.txt
 ```
 - **Begin model training**:execute the provided scripts to start training your models.
