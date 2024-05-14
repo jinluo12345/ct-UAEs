@@ -453,29 +453,6 @@ def validate(val_loader, model, criterion, normalizer1,normalizer2,normalizer3,t
                 )
             
 
-    if test:
-        star_label = '**'
-        import csv
-        with open('test_results.csv', 'w') as f:
-            writer = csv.writer(f)
-            for cif_id, target, pred in zip(test_cif_ids, test_targets,
-                                            test_preds):
-                writer.writerow((cif_id, target, pred))
-    else:
-        star_label = '*'
-    if args.task == 'regression':
-        print(' {star} MAE {mae_errors1.avg:.3f}\t'
-              'R2 {r21.avg:.3f} ' 'MAE {mae_errors2.avg:.3f}\t'
-              'R2 {r22.avg:.3f}'.format(star=star_label,
-                                       mae_errors1=mae_errors1, r21=r2_scores1,mae_errors2=mae_errors2, r22=r2_scores2))
-
-        return mae_errors1.avg,r2_scores1.avg,mae_errors2.avg,r2_scores2.avg
-
-    else:
-        print(' {star} AUC {auc.avg:.3f}'.format(star=star_label,
-                                                 auc=auc_scores))
-
-        return auc_scores.avg
 
 
 class Normalizer(object):

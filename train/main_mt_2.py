@@ -418,15 +418,6 @@ def validate(val_loader, model, criterion, normalizer1,normalizer2 ,test=False):
         r22 = r2_score(target2.cpu().numpy(), normalizer2.denorm(output2.data.cpu()))
         r2_scores1.update(r21, target1.size(0))
         r2_scores2.update(r22, target2.size(0))
-        if test:
-            test_pred = normalizer.denorm(output.data.cpu())
-            test_target = target
-            test_preds += test_pred.view(-1).tolist()
-            test_targets += test_target.view(-1).tolist()
-            test_cif_ids += batch_cif_ids
-        if args.wandb:
-            wandb.log({'test_loss': _loss.item(), 'test_MAE': mae_error.item(),'test_r2':r2.item()})
-
 
         # measure elapsed time
         batch_time.update(time.time() - end)
@@ -448,29 +439,6 @@ def validate(val_loader, model, criterion, normalizer1,normalizer2 ,test=False):
                 )
             
 
-    if test:
-        star_label = '**'
-        import csv
-        with open('test_results.csv', 'w') as f:
-            writer = csv.writer(f)
-            for cif_id, target, pred in zip(test_cif_ids, test_targets,
-                                            test_preds):
-                writer.writerow((cif_id, target, pred))
-    else:
-        star_label = '*'
-    if args.task == 'regression':
-        print(' {star} MAE {mae_errors1.avg:.3f}\t'
-              'R2 {r21.avg:.3f} ' 'MAE {mae_errors2.avg:.3f}\t'
-              'R2 {r22.avg:.3f}'.format(star=star_label,
-                                       mae_errors1=mae_errors1, r21=r2_scores1,mae_errors2=mae_errors2, r22=r2_scores2))
-
-        return mae_errors1.avg,r2_scores1.avg,mae_errors2.avg,r2_scores2.avg
-
-    else:
-        print(' {star} AUC {auc.avg:.3f}'.format(star=star_label,
-                                                 auc=auc_scores))
-
-        return auc_scores.avg
 
 
 class Normalizer(object):
