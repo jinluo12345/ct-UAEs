@@ -23,7 +23,7 @@ print(os.getcwd())
 warnings.filterwarnings("ignore", category=UserWarning, module="pymatgen")
 
 parser = argparse.ArgumentParser(description='Crystal Graph Convolutional Neural Networks')
-parser.add_argument('--load', metavar='PATH', nargs='+', default=r'mp',
+parser.add_argument('--load', metavar='PATH', default=r'mp',
                     help='dataset options, started with the path to root dir, '
                          'then other options')
 parser.add_argument('--file',default='mp_band.csv')
@@ -134,7 +134,7 @@ def main():
     global args, best_mae_error,best_r2_score
     #print(args.load)
     # load data
-    dataset = CIFData(*args.load,file=args.file)
+    dataset = CIFData(args.load,file=args.file)
     collate_fn = collate_pool
     collate_fn_train=collate_pool_train
     train_loader, val_loader, test_loader = get_train_val_test_loader(

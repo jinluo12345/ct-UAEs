@@ -23,7 +23,7 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 warnings.filterwarnings("ignore", category=UserWarning, module="pymatgen")
 
 parser = argparse.ArgumentParser(description='Crystal Graph Convolutional Neural Networks')
-parser.add_argument('--load', metavar='PATH', nargs='+', default=r'mp_13',
+parser.add_argument('--load', metavar='PATH', default=r'mp_13',
                     help='dataset options, started with the path to root dir, '
                          'then other options')
 parser.add_argument('--file',default='mp_13_4_fbem.csv')
